@@ -6,13 +6,13 @@ import About from '../about';
 const App = () => (
   <div>
     <header>
-      <Link to="/">Home</Link>
-      <Link to="/about-us">About</Link>
+      <Link to="/assessment">Test</Link>
+      <Link to="/about">About</Link>
     </header>
 
     <main>
-      <Route exact path="/" component={Home} />
-      <Route exact path="/about-us" component={About} />
+      <Route exact path="/assessment" component={Home} />
+      <Route exact path="/about" component={About} />
     </main>
   </div>
 );
