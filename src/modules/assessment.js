@@ -1,94 +1,24 @@
-// export const INCREMENT_REQUESTED = 'counter/INCREMENT_REQUESTED';
-export const INCREMENT = 'counter/INCREMENT';
-// export const DECREMENT_REQUESTED = 'counter/DECREMENT_REQUESTED';
-export const DECREMENT = 'counter/DECREMENT';
+import testQuestions from './testQuestions';
+// this imports the test questions from the json file
 
+export const CHOOSEOPTION = 'assessment/CHOOSEOPTION';
+export const BACK = 'assessment/BACK';
+
+// This initializes the initial state of the store.
 const initialState = {
   score: 0,
   page: 1,
   testScores: [],
-  test: [
-    {
-      question: 'What is word?',
-      options: [
-        {
-          answer: 'blah',
-          points: 2
-        },
-        {
-          answer: 'blurrg',
-          points: 4
-        }
-      ]
-    },
-    {
-      question: 'What is love?',
-      options: [
-        {
-          answer: "baby don't hurt me",
-          points: 2
-        },
-        {
-          answer: "don't hurt me",
-          points: 4
-        },
-        {
-          answer: 'no more',
-          points: 6
-        }
-      ]
-    },
-    {
-      question: 'What is the past tense of yeet?',
-      options: [
-        {
-          answer: 'yote',
-          points: 5
-        },
-        {
-          answer: 'yeeted',
-          points: 4
-        },
-        {
-          answer: 'yaught',
-          points: 2
-        },
-        {
-          answer: 'yurt',
-          points: 1
-        }
-      ]
-    },
-    {
-      question: 'What is math?',
-      options: [
-        {
-          answer: 'numbers',
-          points: 2
-        },
-        {
-          answer: 'words',
-          points: 0
-        },
-        {
-          answer: 'calculations',
-          points: 3
-        }
-      ]
-    }
-  ]
+  test: testQuestions
 };
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    // case INCREMENT_REQUESTED:
-    //   return {
-    //     ...state,
-    //     isIncrementing: true
-    //   };
-
-    case INCREMENT:
+    case CHOOSEOPTION:
       state.testScores.push(action.payload);
+      // Add points from answer chosen to test scores array.
+      // score returns the sum of the array
+      // page is added by 1
       return {
         ...state,
         score: state.testScores.reduce(function(acc, val) {
@@ -97,15 +27,11 @@ export default (state = initialState, action) => {
         page: state.page + 1
       };
 
-    // case DECREMENT_REQUESTED:
-    //   return {
-    //     ...state,
-    //     isDecrementing: true
-    //   };
-
-    case DECREMENT:
+    case BACK:
       state.testScores.splice(state.testScores.length - 1, 1);
+      // Remove the last test score
       var scores;
+      // if test scores array is empty, score is reset to 0;
       if (state.testScores.length === 0) {
         scores = 0;
       } else {
@@ -113,6 +39,7 @@ export default (state = initialState, action) => {
           return acc + val;
         });
       }
+      // page is reduced by 1
       return {
         ...state,
         score: scores,
@@ -124,47 +51,20 @@ export default (state = initialState, action) => {
   }
 };
 
-export const increment = num => {
+// when option is chosen, the points is stored into the payload
+export const chooseOption = points => {
   return dispatch => {
     dispatch({
-      type: INCREMENT,
-      payload: num
+      type: CHOOSEOPTION,
+      payload: points
     });
   };
 };
 
-// export const incrementAsync = () => {
-//   return dispatch => {
-//     dispatch({
-//       type: INCREMENT_REQUESTED
-//     });
-
-//     return setTimeout(() => {
-//       dispatch({
-//         type: INCREMENT
-//       });
-//     }, 3000);
-//   };
-// };
-
-export const decrement = () => {
+export const back = () => {
   return dispatch => {
     dispatch({
-      type: DECREMENT
+      type: BACK
     });
   };
 };
-
-// export const decrementAsync = () => {
-//   return dispatch => {
-//     dispatch({
-//       type: DECREMENT_REQUESTED
-//     });
-
-//     return setTimeout(() => {
-//       dispatch({
-//         type: DECREMENT
-//       });
-//     }, 3000);
-//   };
-// };
